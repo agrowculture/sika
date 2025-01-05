@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:sika
+    username: admin
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    show-sql: true
+  security:
+    user:
+      name: admin
+      password: admin123
+api:
+  endpoint:
+    base-url: /api/v1
