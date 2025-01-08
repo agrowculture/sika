@@ -12,4 +12,4 @@ spring:
       password: admin123
 api:
   endpoint:
-    base-url: /api/v1
+    base-url: /api
