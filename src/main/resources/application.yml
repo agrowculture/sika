@@ -1,15 +1,9 @@
 spring:
-  datasource:
-    url: jdbc:h2:mem:sika
-    username: admin
-    password:
-    driver-class-name: org.h2.Driver
-  jpa:
-    show-sql: true
-  security:
-    user:
-      name: admin
-      password: admin123
+  profiles:
+    active: dev # during production this value will be replaced with "prod" from deployment environment variable
+  web:
+    resources:
+      add-mappings: false
 api:
   endpoint:
     base-url: /api

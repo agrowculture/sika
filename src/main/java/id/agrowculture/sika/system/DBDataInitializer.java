@@ -1,6 +1,7 @@
 package id.agrowculture.sika.system;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import id.agrowculture.sika.user.User;
@@ -8,6 +9,7 @@ import id.agrowculture.sika.user.UserService;
 import lombok.RequiredArgsConstructor;
 
 @Component
+@Profile("dev")
 @RequiredArgsConstructor
 public class DBDataInitializer implements CommandLineRunner {
 
