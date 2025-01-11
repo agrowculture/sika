@@ -1,5 +1,7 @@
 package id.agrowculture.sika.user;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,8 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import id.agrowculture.sika.client.imagestorage.ImageStorageClient;
 import id.agrowculture.sika.system.Result;
 import id.agrowculture.sika.system.StatusCode;
 import id.agrowculture.sika.user.converter.UserDtoToUserConverter;
@@ -25,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
   private final UserService userService;
+
+  private final ImageStorageClient imageStorageClient;
 
   private final UserDtoToUserConverter userDtoToUserConverter; // Convert userDto to user.
 
@@ -77,6 +84,15 @@ public class UserController {
   public Result deleteUser(@PathVariable Integer userId) {
     this.userService.delete(userId);
     return new Result(true, StatusCode.SUCCESS, "Delete Success");
+  }
+
+  @PostMapping("/images")
+  public Result uploadImage(@RequestParam String containerName, @RequestParam MultipartFile file) throws IOException {
+    try (InputStream InputStream = file.getInputStream()) {
+      String imageUrl = this.imageStorageClient.uploadImage(containerName, file.getOriginalFilename(), InputStream,
+          file.getSize());
+      return new Result(true, StatusCode.SUCCESS, "Upload Image Success", imageUrl);
+    }
   }
 
 }

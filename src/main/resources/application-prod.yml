@@ -5,6 +5,13 @@ spring:
         secret:
           property-sources[0]:
             endpoint: ${AZURE_KEY_VAULT_ENDPOINT} # environment variable
+      storage:
+        account-name: ${AZURE_STORAGE_ACCOUNT_NAME}
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+
   datasource:
     url: ${datasource-url} # secret from Azure Key Vault
     username: ${datasource-username} # secret from Azure Key Vault

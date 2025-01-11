@@ -5,3 +5,12 @@ spring:
     password:
   jpa:
     show-sql: true
+  cloud:
+    azure:
+      storage:
+        account-name: ${AZURE_STORAGE_ACCOUNT_NAME:default}
+        account-key: ${AZURE_STORAGE_ACCOUNT_KEY:default}
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
