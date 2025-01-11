@@ -7,6 +7,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -66,11 +67,13 @@ public class SecurityConfiguration {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
         .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-            .requestMatchers(HttpMethod.GET, this.baseUrl + "/products/**").permitAll()
             .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").hasAuthority("ROLE_admin")
             .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").hasAuthority("ROLE_admin")
             .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").hasAuthority("ROLE_admin")
             .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/**").hasAuthority("ROLE_admin")
+            .requestMatchers(EndpointRequest.to("health", "info", "prometheus")).permitAll()
+            .requestMatchers(EndpointRequest.toAnyEndpoint().excluding("health", "info", "prometheus"))
+            .hasAuthority("ROLE_admin")
             .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
             .anyRequest().authenticated())
         .headers(headers -> headers.frameOptions().disable())
