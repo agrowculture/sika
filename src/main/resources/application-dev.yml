@@ -8,8 +8,8 @@ spring:
   cloud:
     azure:
       storage:
-        account-name: ${AZURE_STORAGE_ACCOUNT_NAME}
-        account-key: ${AZURE_STORAGE_ACCOUNT_KEY}
+        account-name: ${AZURE_STORAGE_ACCOUNT_NAME:default}
+        account-key: ${AZURE_STORAGE_ACCOUNT_KEY:default}
   servlet:
     multipart:
       max-file-size: 20MB
